@@ -1,0 +1,23 @@
+{
+  "id" : "d55d8f2f87f74eea8d1eef77940c2a50",
+  "type" : "POSTGRESQL",
+  "url" : "jdbc:postgresql://35.188.248.28:5432/library?sslmode=disable",
+  "user" : "lab-user",
+  "password" : null,
+  "savePassword" : true,
+  "existingConnectionId" : null,
+  "oraclePdbName" : null,
+  "isManualUri" : false,
+  "host" : "35.188.248.28",
+  "port" : "5432",
+  "database" : "library",
+  "oracleIdentifier" : null,
+  "mssqlAuthentication" : null,
+  "useSSL" : null,
+  "trustServerCertificate" : null,
+  "mysqlSSLMode" : null,
+  "postgresSSLMode" : null,
+  "isError" : false,
+  "connectionType" : "NONE",
+  "name" : "US-PostgreSQL"
+}

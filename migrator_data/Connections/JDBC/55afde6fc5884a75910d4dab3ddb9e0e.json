@@ -1,0 +1,23 @@
+{
+  "id" : "55afde6fc5884a75910d4dab3ddb9e0e",
+  "type" : "POSTGRESQL",
+  "url" : "jdbc:postgresql://rm-pg.mdb-demos.net:5432/postgres?sslmode=disable",
+  "user" : "lab-user",
+  "password" : null,
+  "savePassword" : true,
+  "existingConnectionId" : null,
+  "oraclePdbName" : null,
+  "isManualUri" : false,
+  "host" : "rm-pg.mdb-demos.net",
+  "port" : "5432",
+  "database" : "postgres",
+  "oracleIdentifier" : null,
+  "mssqlAuthentication" : null,
+  "useSSL" : null,
+  "trustServerCertificate" : null,
+  "mysqlSSLMode" : null,
+  "postgresSSLMode" : null,
+  "isError" : false,
+  "connectionType" : "NONE",
+  "name" : "SG-PostgreSQL"
+}

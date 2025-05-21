@@ -1,0 +1,16 @@
+{
+  "id" : "01f735f288e54e868a24573236d64251",
+  "connectionString" : "mongodb://admin:*****@mongodb:27017/admin",
+  "projectId" : "",
+  "savePassword" : false,
+  "projectName" : "",
+  "clusterName" : "",
+  "existingConnectionId" : null,
+  "clusterId" : "",
+  "database" : "admin",
+  "user" : "admin",
+  "password" : null,
+  "isError" : false,
+  "connectionType" : "NONE",
+  "name" : "local-MongoDB"
+}

@@ -63,6 +63,20 @@ services:
       MIGRATOR_KAFKA_ENABLE_TOPIC_CLEANUP: "true"
       MIGRATOR_KAFKA_CONNECT_METRICS_JMX_SERVICE_URL: "service:jmx:rmi:///jndi/rmi://connect:9876/jmxrmi"
     volumes:
-      - ../:/workspace
+      - ../migrator_data:/workspace
       - ../migrator_data:/root/Migrator
       - ${MIGRATOR_PATH_DRIVER:-/dev/null}:/opt/mongodb-relational-migrator/lib/app/lib/driver.jar
+
+  mongodb:
+    image: mongodb/mongodb-atlas-local:latest
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=admin
+      - MONGODB_INITDB_ROOT_PASSWORD=mongodb
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongodb_data:
