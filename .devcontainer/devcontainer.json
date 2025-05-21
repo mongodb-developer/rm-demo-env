@@ -8,8 +8,9 @@
     ],
     "portsAttributes": {
         "8080": {
-        "label": "Relational Migrator",
-        "onAutoForward": "openBrowser"
+            "label": "Relational Migrator",
+            "onAutoForward": "openBrowser"
+        }
     },
     "hostRequirements": {
         "cpus": 4
