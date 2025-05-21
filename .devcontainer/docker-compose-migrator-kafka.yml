@@ -1,0 +1,68 @@
+# MongoDB Relational Migrator deployed in Kafka with KRaft mode
+# Environment variables:
+# MIGRATOR_PATH_DATA - required - Path to a local folder for persisting Migrator application data
+# MIGRATOR_PATH_DRIVER - optional - Path to a local JDBC driver to mount
+# Unix example: MIGRATOR_PATH_DRIVER="/absolute/path/ojdbc11.jar" MIGRATOR_PATH_DATA="/absolute/path/data" docker compose -f docker-compose-migrator-local.yml up
+# Windows example: $env:MIGRATOR_PATH_DATA = 'C:\absolute\path\data'; docker compose -f docker-compose-migrator-local.yml up
+
+services:
+
+  kafka-1:
+    image: quay.io/debezium/kafka:3.0.7.Final
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      CLUSTER_ID: oh-sxaDRTcyAr6pFRbXyzA
+      BROKER_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-1:9093
+      NODE_ROLE: controller,broker
+    healthcheck:
+      test: ["CMD-SHELL", "./bin/kafka-topics.sh --version"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  connect:
+    image: public.ecr.aws/v4d7k6c9/relational-migrator-connect:1.13.1
+    ports:
+      - "8083:8083"
+      - "9876:9876"
+    depends_on:
+      kafka-1:
+        condition: service_healthy
+    deploy:
+      resources:
+        reservations:
+          memory: 2G
+    environment:
+      BOOTSTRAP_SERVERS: kafka-1:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+      STATUS_STORAGE_TOPIC: connect_statuses
+      CONNECT_METADATA_MAX_AGE_MS: 5000
+      CONNECT_AUTO_OFFSET_RESET: earliest
+      JMXPORT: 9876
+      JMXHOST: connect
+      JMXAUTH: false
+      JMXSSL: false
+    volumes:
+      - ${MIGRATOR_PATH_DRIVER:-/dev/null}:/opt/mongodb-relational-migrator/lib/app/lib/driver.jar
+
+  migrator:
+    image: public.ecr.aws/v4d7k6c9/relational-migrator:1.13.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - connect
+    environment:
+      SPRING_PROFILES_ACTIVE: kafka
+      MIGRATOR_KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      MIGRATOR_KAFKA_CONNECT_URL: connect:8083
+      MIGRATOR_KAFKA_ENABLE_TOPIC_CLEANUP: "true"
+      MIGRATOR_KAFKA_CONNECT_METRICS_JMX_SERVICE_URL: "service:jmx:rmi:///jndi/rmi://connect:9876/jmxrmi"
+    volumes:
+      - ../:/workspace
+      - ../migrator_data:/root/Migrator
+      - ${MIGRATOR_PATH_DRIVER:-/dev/null}:/opt/mongodb-relational-migrator/lib/app/lib/driver.jar

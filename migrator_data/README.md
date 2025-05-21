@@ -1,0 +1,1 @@
+### This directory will contain data stored by relational migrator.
