@@ -66,10 +66,6 @@ services:
       - ../migrator_data:/workspace
       - ../migrator_data:/root/Migrator
       - ${MIGRATOR_PATH_DRIVER:-/dev/null}:/opt/mongodb-relational-migrator/lib/app/lib/driver.jar
-  query-runner:
-    image: public.ecr.aws/v4d7k6c9/relational-migrator-query-runner:latest
-    ports: 
-      - "6080:6080"
 
   mongodb:
     image: mongodb/mongodb-atlas-local:latest
